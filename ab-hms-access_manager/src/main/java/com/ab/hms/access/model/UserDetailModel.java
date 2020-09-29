@@ -46,8 +46,8 @@ public class UserDetailModel {
 	@Column(name = "ROLE", nullable = false)
 	private String role;
 	
-	@Column(name = "AUTHORITIES", nullable = false)
-	private String[] authorities;
+	@Column(name = "AUTHORITIES", nullable = false, columnDefinition = "TEXT")
+	private String authorities;
 	
 	@Column(name = "PASSWORD_EXPIRY", nullable = false)
 	private Date passwordExpiry;

@@ -19,7 +19,7 @@ import lombok.Setter;
 @Table(name = "RECEPTIONIST_INFO", schema = "HMSIMPL")
 @Getter@Setter
 @AllArgsConstructor@NoArgsConstructor
-public class ReceptionistModel{
+public class ReceptionistModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
