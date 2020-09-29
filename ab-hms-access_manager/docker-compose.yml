@@ -1,0 +1,14 @@
+version: "3"
+networks:
+  default:
+    external:
+      name: hmsbackend
+services: 
+  nrfm-access-manager:
+    build: . 
+    image: hms-access-manager
+    container_name: hms-access-manager
+    expose:
+      - 8100
+    ports:
+      - 8100:8100
