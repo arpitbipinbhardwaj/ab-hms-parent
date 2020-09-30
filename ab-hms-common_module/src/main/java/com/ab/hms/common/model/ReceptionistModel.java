@@ -27,7 +27,7 @@ public class ReceptionistModel {
 	private Integer id;
 	
 	@Column(name = "RECEPTIONIST_ID", nullable = false, updatable = false)
-	private String receptionist_id;
+	private String receptionistid;
 	
 	@Column(name = "USERNAME", nullable = false, updatable = true)
 	private String username;

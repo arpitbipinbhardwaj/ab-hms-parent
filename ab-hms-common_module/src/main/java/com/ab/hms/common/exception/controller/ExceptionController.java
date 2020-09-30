@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.ab.hms.common.exception.customException.EmailExistException;
+import com.ab.hms.common.exception.customException.RoleNotExistException;
 import com.ab.hms.common.exception.customException.UsernameExistException;
 import com.ab.hms.common.exception.dtos.ExceptionResponseDto;
 
@@ -27,6 +28,13 @@ public class ExceptionController {
 		ExceptionResponseDto error = ex.exceptionResponseDto;
 		ResponseEntity<ExceptionResponseDto> response = new ResponseEntity<ExceptionResponseDto>(error,error.getHttpStatus());
 		log.error("Error occured for existing email");
+		return response;
+	}
+	@ExceptionHandler(RoleNotExistException.class)
+	public ResponseEntity<ExceptionResponseDto> roleNotExistExceptionHandler(RoleNotExistException ex){
+		ExceptionResponseDto error = ex.exceptionResponseDto;
+		ResponseEntity<ExceptionResponseDto> response = new ResponseEntity<ExceptionResponseDto>(error,error.getHttpStatus());
+		log.error("Error occured for non existing role");
 		return response;
 	}
 }

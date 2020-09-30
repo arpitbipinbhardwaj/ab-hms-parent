@@ -27,7 +27,7 @@ public class AdminModel{
 	private Integer id;
 	
 	@Column(name = "ADMIN_ID", nullable = false, updatable = false)
-	private String receptionist_id;
+	private String adminid;
 	
 	@Column(name = "USERNAME", nullable = false, updatable = true)
 	private String username;

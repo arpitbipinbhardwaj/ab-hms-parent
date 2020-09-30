@@ -27,7 +27,7 @@ public class DoctorModel{
 	private Integer id;
 	
 	@Column(name = "DOCTOR_ID", nullable = false, updatable = false)
-	private String receptionist_id;
+	private String doctorid;
 	
 	@Column(name = "USERNAME", nullable = false, updatable = true)
 	private String username;

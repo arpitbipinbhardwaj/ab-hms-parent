@@ -1,5 +1,6 @@
 package com.ab.hms.access.controller;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import com.ab.hms.access.dtos.UserRegisterDto;
 import com.ab.hms.access.model.UserDetailModel;
 import com.ab.hms.access.service.UserRegisterService;
 import com.ab.hms.common.exception.customException.EmailExistException;
+import com.ab.hms.common.exception.customException.RoleNotExistException;
 import com.ab.hms.common.exception.customException.UsernameExistException;
 
 @RestController
@@ -29,8 +31,8 @@ public class AccessController {
 	
 	@PostMapping(value = "/register")
 	public ResponseEntity<UserDetailModel> registerNewUser(
-			@RequestBody UserRegisterDto newUser
-			) throws EmailExistException, UsernameExistException {
+			@RequestBody(required = true) UserRegisterDto newUser
+			) throws EmailExistException, UsernameExistException, RoleNotExistException, ParseException {
 		ResponseEntity<UserDetailModel> response = new ResponseEntity<UserDetailModel>(HttpStatus.BAD_REQUEST);
 		UserDetailModel registeredUser = userRegisterService.registerNewUser(newUser);
 		if(registeredUser!=null)
