@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ab.hms.access.dtos.AddressDto;
@@ -28,6 +29,9 @@ import com.ab.hms.common.repository.IAdminRepository;
 import com.ab.hms.common.repository.IDocterRepository;
 import com.ab.hms.common.repository.IReceptionistRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class UserRegisterService {
 
@@ -36,6 +40,7 @@ public class UserRegisterService {
 	private IAdminRepository iAdminRepository;
 	private IDocterRepository iDocterRepository;
 	private IReceptionistRepository iReceptionistRepository;
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	private RequestBodyValidationService requestBodyValidationService;
 	
@@ -46,7 +51,8 @@ public class UserRegisterService {
 			RequestBodyValidationService requestBodyValidationService,
 			IAdminRepository iAdminRepository,
 			IDocterRepository iDocterRepository,
-			IReceptionistRepository iReceptionistRepository
+			IReceptionistRepository iReceptionistRepository,
+			BCryptPasswordEncoder bCryptPasswordEncoder
 			) {
 		this.iUserDetailRepository = iUserDetailRepository;
 		this.iUserRoleRepository = iUserRoleRepository;
@@ -54,6 +60,7 @@ public class UserRegisterService {
 		this.iAdminRepository = iAdminRepository;
 		this.iDocterRepository = iDocterRepository;
 		this.iReceptionistRepository = iReceptionistRepository;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 		
 	}
 	
@@ -95,9 +102,10 @@ public class UserRegisterService {
 	
 	private void setNewPassword(UserDetailModel newUser) {
 		String pass = RandomStringUtils.randomAlphanumeric(10);
+		log.info("Password for username: "+newUser.getUsername()+" is "+pass);
 		Instant instant = Instant.now().plus(60, ChronoUnit.DAYS);
 		
-		newUser.setPassword(pass);
+		newUser.setPassword(bCryptPasswordEncoder.encode(pass));
 		newUser.setDefaultPassword(true);
 		newUser.setPasswordExpiry(Date.from(instant));
 	}

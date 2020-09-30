@@ -6,6 +6,5 @@ import com.ab.hms.common.model.ReceptionistModel;
 
 public interface IReceptionistRepository extends JpaRepository<ReceptionistModel, Integer>{
 	ReceptionistModel findByReceptionistid(String receptionistid);
-	
-	
+	ReceptionistModel findByUsername(String username);
 }
