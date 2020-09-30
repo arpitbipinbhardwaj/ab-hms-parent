@@ -9,5 +9,9 @@ import com.ab.hms.access.model.UserDetailModel;
 
 @Repository
 public interface IUserDetailRepository extends JpaRepository<UserDetailModel, BigInteger>{
+	
+	UserDetailModel findByUsername(String username);
+	UserDetailModel findByEmail(String email);
+	
 
 }
