@@ -49,7 +49,7 @@ public class AccessController {
 	@PostMapping(value = "/login")
 	public ResponseEntity<LoginResponseDto> loginUser(
 			@RequestBody(required = true) LoginRequestBodyDto logindto
-		) {
+		) throws RoleNotExistException {
 		ResponseEntity<LoginResponseDto> response = new ResponseEntity<LoginResponseDto>(HttpStatus.BAD_REQUEST);
 		LoginResponseDto userLoginResponse = userLoginService.UserLogin(logindto);
 		if(userLoginResponse !=null) {

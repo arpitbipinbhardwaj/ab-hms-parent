@@ -68,7 +68,6 @@ public class UserDetailServicePrincipal implements UserDetailsService{
 	}
 
 	private void updatelogin(UserDetailModel user){
-		System.out.println(user.getUsername());
 		if(user.getRole().equalsIgnoreCase("ROLE_ADMIN") || user.getRole().equalsIgnoreCase("ROLE_SUPERADMIN"))
 		{
 			AdminModel currUser = iAdminRepository.findByUsername(user.getUsername());

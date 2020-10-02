@@ -46,6 +46,7 @@ public class SecurityConfigurations  extends WebSecurityConfigurerAdapter{
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and().authorizeRequests()
 		.antMatchers(SecurityConstants.PUBLIC_URL).permitAll()
+		.antMatchers("/list").hasAnyAuthority("admin:create","admin:update","admin:delete","admin:read")
 		.anyRequest().authenticated()
 		.and()
 		.exceptionHandling()
