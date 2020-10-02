@@ -1,4 +1,4 @@
-package com.ab.hms.common.exception.constant;
+package com.ab.hms.common.constant;
 
 public class ExceptionConstants {
 	
@@ -10,5 +10,7 @@ public class ExceptionConstants {
 	
 	public static final String ROLE_NOT_EXIST_MESSAGE = "Role entered for user doesn't exists. Please try with different role";
 	public static final String ROLE_NOT_EXIST_ERRORCODE = "ADM0003";
+	
+	public static final String FORBIDDEN_ERRORCODE = "ADM0004";
 
 }

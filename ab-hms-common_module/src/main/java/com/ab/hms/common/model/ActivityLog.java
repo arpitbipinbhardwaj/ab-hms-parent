@@ -16,4 +16,7 @@ public class ActivityLog {
 	
 	@Column(name = "LASTLOGINDISPLAYDATE")
 	private Date lastLoginDisplayDate;
+	
+	@Column(name = "JOINDATE")
+	private Date joindate;
 }

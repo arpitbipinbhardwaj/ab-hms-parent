@@ -21,6 +21,7 @@ import com.ab.hms.access.repository.IUserRoleRepository;
 import com.ab.hms.common.exception.customException.EmailExistException;
 import com.ab.hms.common.exception.customException.RoleNotExistException;
 import com.ab.hms.common.exception.customException.UsernameExistException;
+import com.ab.hms.common.model.ActivityLog;
 import com.ab.hms.common.model.Address;
 import com.ab.hms.common.model.AdminModel;
 import com.ab.hms.common.model.DoctorModel;
@@ -119,7 +120,7 @@ public class UserRegisterService {
 			throw new UsernameExistException();
 	}
 	
-	private void saveNewUserDetails(UserRegisterDto userRegisterDto) throws ParseException {
+	private void saveNewUserDetails(UserRegisterDto userRegisterDto) throws ParseException, RoleNotExistException {
 		if(userRegisterDto.getRole().equalsIgnoreCase("ADMIN") || userRegisterDto.getRole().equalsIgnoreCase("SUPERADMIN"))
 			saveAdminData(userRegisterDto);
 		else if(userRegisterDto.getRole().equalsIgnoreCase("DOCTOR"))
@@ -128,6 +129,7 @@ public class UserRegisterService {
 			saveReceptionistData(userRegisterDto);
 		else
 			//TODO: throw no such role exception
+			throw new RoleNotExistException("No such role found when saving user");
 			System.out.println("exception");
 	}
 	
@@ -141,6 +143,7 @@ public class UserRegisterService {
 		newAdmin.setEmergencyContact(userRegisterDto.getEmergencyContact());
 		newAdmin.setDob(saveDob(userRegisterDto.getDob()));
 		newAdmin.setAdminid(generateUserId(userRegisterDto.getRole()));
+		newAdmin.setActivityLog(setActivity());
 		iAdminRepository.save(newAdmin);
 	}
 	
@@ -153,7 +156,8 @@ public class UserRegisterService {
 		newDoctor.setContactNumber(userRegisterDto.getContactNumber());;
 		newDoctor.setEmergencyContact(userRegisterDto.getEmergencyContact());
 		newDoctor.setDob(saveDob(userRegisterDto.getDob()));
-		newDoctor.setDoctorid(userRegisterDto.getRole());
+		newDoctor.setDoctorid(generateUserId(userRegisterDto.getRole()));
+		newDoctor.setActivityLog(setActivity());
 		iDocterRepository.save(newDoctor);
 	}
 	
@@ -166,7 +170,8 @@ public class UserRegisterService {
 		newReceptionist.setContactNumber(userRegisterDto.getContactNumber());;
 		newReceptionist.setEmergencyContact(userRegisterDto.getEmergencyContact());
 		newReceptionist.setDob(saveDob(userRegisterDto.getDob()));
-		newReceptionist.setReceptionistid(userRegisterDto.getRole());
+		newReceptionist.setReceptionistid(generateUserId(userRegisterDto.getRole()));
+		newReceptionist.setActivityLog(setActivity());
 		iReceptionistRepository.save(newReceptionist);
 	}
 	
@@ -209,6 +214,15 @@ public class UserRegisterService {
 			//TODO: throw no such role exception
 			System.out.println("exception");
 		return generatedID;
+	}
+	
+	private ActivityLog setActivity() {
+		ActivityLog activity = new ActivityLog();
+		activity.setLastLoginDate(null);
+		activity.setLastLoginDisplayDate(null);
+		Instant instant = Instant.now();
+		activity.setJoindate(Date.from(instant));
+		return activity;
 	}
 	
 }

@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ab.hms.access.dtos.LoginRequestBodyDto;
+import com.ab.hms.access.dtos.LoginResponseDto;
 import com.ab.hms.access.dtos.UserRegisterDto;
 import com.ab.hms.access.model.UserDetailModel;
+import com.ab.hms.access.service.UserLoginService;
 import com.ab.hms.access.service.UserRegisterService;
 import com.ab.hms.common.exception.customException.EmailExistException;
 import com.ab.hms.common.exception.customException.RoleNotExistException;
@@ -21,12 +24,15 @@ import com.ab.hms.common.exception.customException.UsernameExistException;
 public class AccessController {
 	
 	private UserRegisterService userRegisterService;
+	private UserLoginService userLoginService;
 	
 	public AccessController(
-			UserRegisterService userRegisterService
+			UserRegisterService userRegisterService,
+			UserLoginService userLoginService
 			) {
 		
 		this.userRegisterService = userRegisterService;
+		this.userLoginService = userLoginService;
 	}
 	
 	@PostMapping(value = "/register")
@@ -38,6 +44,19 @@ public class AccessController {
 		if(registeredUser!=null)
 			response = new ResponseEntity<UserDetailModel>(registeredUser, HttpStatus.OK);
 		return response;
+	}
+	
+	@PostMapping(value = "/login")
+	public ResponseEntity<LoginResponseDto> loginUser(
+			@RequestBody(required = true) LoginRequestBodyDto logindto
+		) {
+		ResponseEntity<LoginResponseDto> response = new ResponseEntity<LoginResponseDto>(HttpStatus.BAD_REQUEST);
+		LoginResponseDto userLoginResponse = userLoginService.UserLogin(logindto);
+		if(userLoginResponse !=null) {
+			response = new ResponseEntity<LoginResponseDto>(userLoginResponse, HttpStatus.OK);
+		}
+		return response;
+		
 	}
 	
 	@GetMapping(value = "/list")
