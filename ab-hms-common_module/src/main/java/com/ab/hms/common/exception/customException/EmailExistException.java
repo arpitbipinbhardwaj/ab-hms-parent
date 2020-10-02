@@ -2,7 +2,7 @@ package com.ab.hms.common.exception.customException;
 
 import org.springframework.http.HttpStatus;
 
-import com.ab.hms.common.exception.constant.ExceptionConstants;
+import com.ab.hms.common.constant.ExceptionConstants;
 import com.ab.hms.common.exception.dtos.ExceptionResponseDto;
 
 public class EmailExistException extends Exception{

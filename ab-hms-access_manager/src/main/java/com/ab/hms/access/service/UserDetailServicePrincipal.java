@@ -58,7 +58,7 @@ public class UserDetailServicePrincipal implements UserDetailsService{
 		else {
 			
 			validateUser(user);
-//			updatelogin(user);
+			updatelogin(user);
 //			iUserDetailRepository.save(user);
 			
 			UserDetailsPrincipal userPrincipal = new UserDetailsPrincipal(user);
@@ -68,27 +68,32 @@ public class UserDetailServicePrincipal implements UserDetailsService{
 	}
 
 	private void updatelogin(UserDetailModel user){
-		ActivityLog activityLog = new ActivityLog();
-		activityLog.setLastLoginDate(new Date());
 		System.out.println(user.getUsername());
 		if(user.getRole().equalsIgnoreCase("ROLE_ADMIN") || user.getRole().equalsIgnoreCase("ROLE_SUPERADMIN"))
 		{
-			log.info("role found");
 			AdminModel currUser = iAdminRepository.findByUsername(user.getUsername());
-			if(currUser.getActivityLog().getLastLoginDate()!=null)
+			ActivityLog activityLog = currUser.getActivityLog();
+			if(activityLog.getLastLoginDate()!=null)
 				activityLog.setLastLoginDisplayDate(currUser.getActivityLog().getLastLoginDate());
+			activityLog.setLastLoginDate(new Date());
 			currUser.setActivityLog(activityLog);
 			iAdminRepository.save(currUser);
 		}
 		else if(user.getRole().equalsIgnoreCase("ROLE_DOCTOR")) {
 			DoctorModel currUser = iDocterRepository.findByUsername(user.getUsername());
-			activityLog.setLastLoginDisplayDate(currUser.getActivityLog().getLastLoginDate());
+			ActivityLog activityLog = currUser.getActivityLog();
+			if(activityLog.getLastLoginDate()!=null)
+				activityLog.setLastLoginDisplayDate(currUser.getActivityLog().getLastLoginDate());
+			activityLog.setLastLoginDate(new Date());
 			currUser.setActivityLog(activityLog);
 			iDocterRepository.save(currUser);
 		}
 		else if(user.getRole().equalsIgnoreCase("ROLE_RECEPTIONIST")) {
 			ReceptionistModel currUser = iReceptionistRepository.findByUsername(user.getUsername());
-			
+			ActivityLog activityLog = currUser.getActivityLog();
+			if(activityLog.getLastLoginDate()!=null)
+				activityLog.setLastLoginDisplayDate(currUser.getActivityLog().getLastLoginDate());
+			activityLog.setLastLoginDate(new Date());
 			currUser.setActivityLog(activityLog);
 			iReceptionistRepository.save(currUser);
 		}
